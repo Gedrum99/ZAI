@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import views
 from rest_framework import generics
-from .serializers import QuestionTypeSerializer, PollSerializer, QuestionSerializer
-from .models import QuestionType, Poll, Question
+from .serializers import QuestionTypeSerializer, PollSerializer, QuestionSerializer, AnswerSerializer, RespondentSerializer, RespondentAnswerSerializer
+from .models import QuestionType, Poll, Question, Answer, Respondent, RespondentAnswer
 
 # Create your views here.
 
@@ -41,3 +41,38 @@ class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     name = 'question-detail'
+
+
+class AnswerList(generics.ListCreateAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    name = 'answer-list'
+
+
+class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    name = 'answer-detail'
+
+
+class RespondentList(generics.ListCreateAPIView):
+    queryset = Respondent.objects.all()
+    serializer_class = RespondentSerializer
+    name = 'respondent-list'
+
+
+class RespondentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Respondent.objects.all()
+    serializer_class = RespondentSerializer
+    name = 'respondent-detail'
+
+class RespondentAnswerList(generics.ListCreateAPIView):
+    queryset = RespondentAnswer.objects.all()
+    serializer_class = RespondentAnswerSerializer
+    name = 'respondent-answer-list'
+
+
+class RespondentAnswerDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RespondentAnswer.objects.all()
+    serializer_class = RespondentAnswerSerializer
+    name = 'respondent-answer-detail'
