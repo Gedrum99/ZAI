@@ -3,9 +3,10 @@ from .models import Poll, QuestionType, Question
 
 
 class PollSerializer(serializers.ModelSerializer):
+    description = serializers.CharField(required=False)
     class Meta:
         model = Poll
-        fields = ['id', 'title', 'description', 'user']
+        fields = ['id', 'title', 'description', 'user', 'created']
 
 
 class QuestionTypeSerializer(serializers.ModelSerializer):

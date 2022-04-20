@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.backends import get_user_model
-from datetime import date
+from datetime import datetime
 User = get_user_model()
 
 # Create your models here.
@@ -10,7 +10,7 @@ class Poll(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
     user = models.ForeignKey(User, related_name="polls", on_delete=models.SET_NULL, null=True)
-    created = models.DateField( auto_now_add=True)
+    created = models.DateTimeField( auto_now_add=True)
 
     def __str__(self):
         return self.title + ' '+self.description
