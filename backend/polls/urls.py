@@ -8,6 +8,9 @@ urlpatterns = [
     path('polls', views.PollList.as_view(), name=views.PollList.name),
     path('polls/<int:pk>', views.PollDetail.as_view(), name=views.PollDetail.name),
 
+    path('user/polls/', views.UserPollList.as_view(), name=views.UserPollList.name),
+
+
     path('question-type', views.QuestionTypeList.as_view(), name=views.QuestionTypeList.name),
     path('question-type/<int:pk>', views.QuestionTypeDetail.as_view(), name=views.QuestionTypeDetail.name),
 

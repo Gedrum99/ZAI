@@ -5,11 +5,20 @@ from .models import Poll, QuestionType, Question, Answer, User, Respondent, Resp
 class PollSerializer(serializers.ModelSerializer):
     description = serializers.CharField(required=False)
     user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
-    questions = serializers.SlugRelatedField(queryset=Question.objects.all(), many=True, slug_field='title')
+    questions = serializers.HyperlinkedRelatedField(read_only=True, many=True, view_name='question-detail')
 
     class Meta:
         model = Poll
         fields = ['id', 'title', 'description', 'user', 'created', 'questions']
+
+
+class UserPollSerializer(serializers.ModelSerializer):
+    polls = serializers.HyperlinkedRelatedField( many=True, view_name='poll-detail', read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'polls']
+
 
 
 class QuestionTypeSerializer(serializers.ModelSerializer):
@@ -21,7 +30,7 @@ class QuestionTypeSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     poll = serializers.SlugRelatedField( queryset=Poll.objects.all() , slug_field='title')
     question_type = serializers.SlugRelatedField(queryset=QuestionType.objects.all(), slug_field='name')
-    answers = serializers.HyperlinkedRelatedField(queryset=Answer.objects.all(), many=True, view_name='answer-detail')
+    answers = serializers.HyperlinkedRelatedField(read_only=True,  many=True, view_name='answer-detail')
 
     class Meta:
         model = Question

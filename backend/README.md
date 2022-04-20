@@ -1,5 +1,10 @@
 # Backend
 
+## bibliotek
+* django-filtera
+* django
+* djangorestframweork
+* mysqlclient
 
 
 ## Po pobraniu projektu 

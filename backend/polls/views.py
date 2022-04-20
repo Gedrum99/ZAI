@@ -2,10 +2,11 @@ from django.shortcuts import render
 from rest_framework import views
 from rest_framework import generics
 from rest_framework.response import Response
+from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet, DateFilter
 
 from rest_framework.reverse import reverse
-from .serializers import QuestionTypeSerializer, PollSerializer, QuestionSerializer, AnswerSerializer, RespondentSerializer, RespondentAnswerSerializer
-from .models import QuestionType, Poll, Question, Answer, Respondent, RespondentAnswer
+from .serializers import QuestionTypeSerializer, PollSerializer, QuestionSerializer, AnswerSerializer, RespondentSerializer, RespondentAnswerSerializer, UserPollSerializer
+from .models import QuestionType, Poll, Question, Answer, Respondent, RespondentAnswer, User
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
 
@@ -27,11 +28,27 @@ class QuestionTypeDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
 
+class PollFilter(FilterSet):
+    created = DateTimeFilter(field_name='created', lookup_expr='gte')
+    class Meta:
+        model = Poll
+        fields = ['title', 'user', 'created']
+
+
 class PollList(generics.ListCreateAPIView):
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
     name = 'polls-list'
     permission_classes = [IsOwnerOrReadOnly]
+    filter_class = PollFilter
+    ordering = ['title', 'created']
+
+
+class UserPollList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    name = 'user-polls'
+    serializer_class = UserPollSerializer
+    filter_fields = ['username']
 
 
 class PollDetail(generics.RetrieveUpdateDestroyAPIView):
