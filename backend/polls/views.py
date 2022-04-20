@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from rest_framework import views
 from rest_framework import generics
+from rest_framework.response import Response
+
+from rest_framework.reverse import reverse
 from .serializers import QuestionTypeSerializer, PollSerializer, QuestionSerializer, AnswerSerializer, RespondentSerializer, RespondentAnswerSerializer
 from .models import QuestionType, Poll, Question, Answer, Respondent, RespondentAnswer
 from rest_framework import permissions
@@ -42,15 +45,15 @@ class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     name = 'question-list'
-    permission_classes = [ IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     name = 'question-detail'
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
-    
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 class AnswerList(generics.ListCreateAPIView):
     queryset = Answer.objects.all()
@@ -86,3 +89,13 @@ class RespondentAnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RespondentAnswerSerializer
     name = 'respondent-answer-detail'
 
+
+class ApiRoot(generics.GenericAPIView):
+    name = "api-root"
+
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'polls': reverse(PollList.name),
+            'questions': reverse(QuestionList.name),
+            'question-categories': reverse(QuestionTypeList.name),
+        })

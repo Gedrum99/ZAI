@@ -5,8 +5,8 @@ from . import views
 
 urlpatterns = [
     # path('polls/', include('polls.urls')),
-    path('', views.PollList.as_view(), name=views.PollList.name),
-    path('<int:pk>', views.PollDetail.as_view(), name=views.PollDetail.name),
+    path('polls', views.PollList.as_view(), name=views.PollList.name),
+    path('polls/<int:pk>', views.PollDetail.as_view(), name=views.PollDetail.name),
 
     path('question-type', views.QuestionTypeList.as_view(), name=views.QuestionTypeList.name),
     path('question-type/<int:pk>', views.QuestionTypeDetail.as_view(), name=views.QuestionTypeDetail.name),
@@ -21,5 +21,7 @@ urlpatterns = [
     path('respondent/<int:pk>', views.RespondentDetail.as_view(), name=views.RespondentDetail.name),
 
     path('respondent-answer', views.RespondentAnswerList.as_view(), name=views.RespondentAnswerList.name),
-    path('respondent-answer/<int:pk>', views.RespondentAnswerDetail.as_view(), name=views.RespondentAnswerDetail.name)
+    path('respondent-answer/<int:pk>', views.RespondentAnswerDetail.as_view(), name=views.RespondentAnswerDetail.name),
+
+    path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
 ]
