@@ -42,10 +42,11 @@ class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     name = 'question-list'
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [ IsOwnerOrReadOnly]
 
 
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     name = 'question-detail'
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
