@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Poll, QuestionType, Question, Answer, User, Respondent, RespondentAnswer
+from .models import Poll, QuestionType, Question, Answer, Respondent, RespondentAnswer, User
 
 
 class PollSerializer(serializers.ModelSerializer):
@@ -13,12 +13,11 @@ class PollSerializer(serializers.ModelSerializer):
 
 
 class UserPollSerializer(serializers.ModelSerializer):
-    polls = serializers.HyperlinkedRelatedField( many=True, view_name='poll-detail', read_only=True)
+    polls = serializers.HyperlinkedRelatedField(many=True, view_name='poll-detail', read_only=True)
 
     class Meta:
         model = User
         fields = ['username', 'polls']
-
 
 
 class QuestionTypeSerializer(serializers.ModelSerializer):
@@ -28,9 +27,9 @@ class QuestionTypeSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    poll = serializers.SlugRelatedField( queryset=Poll.objects.all() , slug_field='title')
+    poll = serializers.SlugRelatedField(queryset=Poll.objects.all(), slug_field='title')
     question_type = serializers.SlugRelatedField(queryset=QuestionType.objects.all(), slug_field='name')
-    answers = serializers.HyperlinkedRelatedField(read_only=True,  many=True, view_name='answer-detail')
+    answers = serializers.HyperlinkedRelatedField(read_only=True, many=True, view_name='answer-detail')
 
     class Meta:
         model = Question
@@ -38,18 +37,25 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
+    question = serializers.SlugRelatedField(queryset=Question.objects.all(),slug_field='title')
+
     class Meta:
         model = Answer
         fields = ['id', 'text', 'question']
 
 
 class RespondentSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+
     class Meta:
         model = Respondent
-        fields = ['id','user']
+        fields = ['id', 'user']
 
 
 class RespondentAnswerSerializer(serializers.ModelSerializer):
+    respondent = serializers.SlugRelatedField(queryset=Respondent.objects.all(),slug_field='user')
+    poll = serializers.SlugRelatedField(queryset=Poll.objects.all(),slug_field='poll')
+
     class Meta:
         model = RespondentAnswer
-        fields = ['id','respondent','poll']
+        fields = ['id', 'respondent', 'poll']

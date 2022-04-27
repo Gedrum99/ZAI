@@ -10,7 +10,7 @@ class Poll(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
     user = models.ForeignKey(User, related_name="polls", on_delete=models.SET_NULL, null=True)
-    created = models.DateTimeField( auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
@@ -51,4 +51,3 @@ class Respondent(models.Model):
 class RespondentAnswer(models.Model):
     respondent = models.ForeignKey(Respondent, related_name="respondends", on_delete=models.SET_NULL, null=True)
     poll = models.ForeignKey(Poll, related_name="polls", on_delete=models.SET_NULL, null=True)
-

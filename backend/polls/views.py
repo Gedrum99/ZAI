@@ -10,7 +10,6 @@ from .models import QuestionType, Poll, Question, Answer, Respondent, Respondent
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
 
-
 # Create your views here.
 
 
@@ -33,6 +32,7 @@ class PollFilter(FilterSet):
     class Meta:
         model = Poll
         fields = ['title', 'user', 'created']
+
 
 
 class PollList(generics.ListCreateAPIView):
@@ -76,36 +76,41 @@ class AnswerList(generics.ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     name = 'answer-list'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     name = 'answer-detail'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class RespondentList(generics.ListCreateAPIView):
     queryset = Respondent.objects.all()
     serializer_class = RespondentSerializer
     name = 'respondent-list'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class RespondentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Respondent.objects.all()
     serializer_class = RespondentSerializer
     name = 'respondent-detail'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class RespondentAnswerList(generics.ListCreateAPIView):
     queryset = RespondentAnswer.objects.all()
     serializer_class = RespondentAnswerSerializer
     name = 'respondent-answer-list'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class RespondentAnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RespondentAnswer.objects.all()
     serializer_class = RespondentAnswerSerializer
     name = 'respondent-answer-detail'
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ApiRoot(generics.GenericAPIView):
     name = "api-root"
