@@ -8,8 +8,8 @@ urlpatterns = [
     path('polls', views.PollList.as_view(), name=views.PollList.name),
     path('polls/<int:pk>', views.PollDetail.as_view(), name=views.PollDetail.name),
 
-    path('user/polls/', views.UserPollList.as_view(), name=views.UserPollList.name),
-
+    path('users/polls/', views.UsersPollList.as_view(), name=views.UsersPollList.name),
+    path('users/<int:pk>/polls/', views.UserPollList.as_view(), name=views.UserPollList.name),
 
     path('question-type', views.QuestionTypeList.as_view(), name=views.QuestionTypeList.name),
     path('question-type/<int:pk>', views.QuestionTypeDetail.as_view(), name=views.QuestionTypeDetail.name),
@@ -25,6 +25,8 @@ urlpatterns = [
 
     path('respondent-answer', views.RespondentAnswerList.as_view(), name=views.RespondentAnswerList.name),
     path('respondent-answer/<int:pk>', views.RespondentAnswerDetail.as_view(), name=views.RespondentAnswerDetail.name),
+
+    path('users-list', views.UserList.as_view(), name=views.UserList.name),
 
     path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
 ]

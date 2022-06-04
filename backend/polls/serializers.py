@@ -4,12 +4,33 @@ from .models import Poll, QuestionType, Question, Answer, Respondent, Respondent
 
 class PollSerializer(serializers.ModelSerializer):
     description = serializers.CharField(required=False)
-    user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+    #user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+    user = serializers.StringRelatedField()
     questions = serializers.HyperlinkedRelatedField(read_only=True, many=True, view_name='question-detail')
 
     class Meta:
         model = Poll
         fields = ['id', 'title', 'description', 'user', 'created', 'questions']
+        read_only_fields = ['questions']
+
+    def validate_user(self, value):
+        """
+        Check that the blog post is about Django.
+        """
+        print(value)
+        if not value:
+            raise serializers.ValidationError("User do not exist")
+        return value
+
+
+
+
+class UsersPollSerializer(serializers.ModelSerializer):
+    polls = serializers.HyperlinkedRelatedField(many=True, view_name='poll-detail', read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'polls']
 
 
 class UserPollSerializer(serializers.ModelSerializer):
@@ -17,7 +38,7 @@ class UserPollSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'polls']
+        fields = ['id', 'username', 'polls']
 
 
 class QuestionTypeSerializer(serializers.ModelSerializer):
@@ -59,3 +80,13 @@ class RespondentAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = RespondentAnswer
         fields = ['id', 'respondent', 'poll']
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password']
+
+
