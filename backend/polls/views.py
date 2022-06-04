@@ -119,5 +119,9 @@ class ApiRoot(generics.GenericAPIView):
         return Response({
             'polls': reverse(PollList.name),
             'questions': reverse(QuestionList.name),
-            'question-categories': reverse(QuestionTypeList.name),
+            'question-types': reverse(QuestionTypeList.name),
+            'question-answers': reverse(AnswerList.name),
+            'user-polls': reverse(UserPollList.name),
+            'respondents': reverse(RespondentList.name),
+            'respondent-answers': reverse(RespondentAnswerList.name)
         })
