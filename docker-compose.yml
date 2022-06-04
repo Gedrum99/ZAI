@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: web
+    command: python backend/manage.py runserver 0.0.0.0:8888
+    volumes:
+      - .:/code
+    ports:
+      - "8888:8888"
+    depends_on:
+      - db
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Password
+      MYSQL_DB: zai_polls
+
+  db:
+    image: mysql
+    container_name: db
+    environment:
+      MYSQL_DATABASE: zai_polls
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: Password
+    ports:
+      - "3306:3306"
