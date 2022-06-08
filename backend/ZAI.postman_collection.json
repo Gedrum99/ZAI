@@ -1,0 +1,309 @@
+{
+	"info": {
+		"_postman_id": "46405d97-6815-491b-976d-44d4dcf41c66",
+		"name": "ZAI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Status code is OK\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"    resBody = pm.response.json();\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Veryfy, Time response is less than 300ms\", function () {\r",
+									"    let limit = 300;\r",
+									"    pm.expect(pm.response.responseTime).to.eql(limit);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify, Content type is JSON\", function () {\r",
+									"\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{question}}",
+							"host": [
+								"{{url}}{{question}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    resBody = pm.response.json();\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Veryfy created question type\", function (){\r",
+									"    console.log(resBody)\r",
+									"    pm.expect(resBody.question_type).to.equal(\"jednokrotnego wyboru\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Time response is less than 300ms\", function () {\r",
+									"    let limit = 300;\r",
+									"    pm.expect(pm.response.responseTime).to.eql(limit);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Veryfy, response id\", function (){\r",
+									"    pm.collectionVariables.set(\"question_id\", resBody.id);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Nowa ankieta 2000000\",\r\n    \"poll\":{{poll}},\r\n    \"question_type\": \"jednokrotnego wyboru\",\r\n    \"number\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{question}}",
+							"host": [
+								"{{url}}{{question}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Time response is less than 300ms\", function () {\r",
+									"    let limit = 300;\r",
+									"    pm.expect(pm.response.responseTime).to.eql(limit);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Time response is less than 300ms\", function () {\r",
+									"    \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{question_id}},\r\n    \"title\": \"Nowe Pytanie !!! \",\r\n    \"poll\": {{poll}},\r\n    \"question_type\": \"jednokrotnego wyboru\",\r\n    \"number\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{question}}/{{question_id}}",
+							"host": [
+								"{{url}}{{question}}"
+							],
+							"path": [
+								"{{question_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Status code is 204 No Content\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Time response is less than 300ms\", function () {\r",
+									"    let limit = 300;\r",
+									"    pm.expect(pm.response.responseTime).to.eql(limit);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{question}}/{{question_id}}",
+							"host": [
+								"{{url}}{{question}}"
+							],
+							"path": [
+								"{{question_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "Karo1234",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Jan_Kowalski",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8888/api/",
+			"disabled": true
+		},
+		{
+			"key": "question",
+			"value": "question"
+		},
+		{
+			"key": "username",
+			"value": "Jan_Kowalski"
+		},
+		{
+			"key": "password",
+			"value": "Karo1234"
+		},
+		{
+			"key": "user_id",
+			"value": "2"
+		},
+		{
+			"key": "poll",
+			"value": "Hello World"
+		},
+		{
+			"key": "question_id",
+			"value": ""
+		}
+	]
+}
